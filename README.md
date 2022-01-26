@@ -7,9 +7,11 @@ This script saves the configuration of a pfSense firewall, by retrieving the XML
 ## Variables
 You will need to create a file and within it provide the username and password of the pfsense user that will perform the automated backups. For the config file, format it like this:
 
+```
 pfsense_username=usernamehere
 
 pfsense_password=passwordhere
+```
 
 I recommend limiting access to that file, with something like ```chmod 0400 filename``` , replacing 'filename' with the actual filename of the file that contains the username and password
 
