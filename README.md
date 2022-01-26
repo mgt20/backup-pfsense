@@ -1,49 +1,43 @@
-bm-backup-pfsense (blogmotion backup pfsense)
+backup-pfsense (backup pfsense)
 ===
-> english version below
 
 ### Description
-Présentation ➡️ https://blogmotion.fr/systeme/script-backup-pfsense-configuration-16496
-
-Ce script permet de sauvegarder la configuration d'un pare-feu pfSense, en récupérant à distance le fichier XML via HTTP(S).
-
-3 versions du script existent :
-- une basée sur le binaire wget 
-- une basée sur le binaire cURL (plus rapide)
-- une basée sur le binaire cURL (plus rapide) version multi
-
-Suivant si l'un ou l'autre binaire est présent, choisissez la version en adéquation.
-
-La version multi permet de sauvegarder plusieurs pare-feu dans le même script.
+This script saves the configuration of a pfSense firewall, by retrieving the XML file remotely via HTTP(S).
 
 ## Variables
-Vous devez éditer le script (nano, vim, etc.) pour saisir à minima :
-- [X] IP ou le nom FQDN (sans slash de fin)
-- [X] identifiant
-- [X] mot de passe
+You will need to create a file and within it provide the username and password of the pfsense user that will perform the automated backups. For the config file, format it like this:
+pfsense_username=usernamehere
+pfsense_password=passwordhere
 
-Je vous recommande de créer un utilisateur dédié (System > User Manager) ayant à minima le privilège "WebCfg - Diagnostics: Backup & Restore".
-Pour des questions de sécurité le compte "admin" est déconseillé (mot de passe en clair dans le script).
+I recommend limiting access to that file, with something like ```chmod 0400 filename``` , replacing 'filename' with the actual filename of the file that contains the username and password
 
-## 🚦 Configuration minimale
-Nécessite 
-- [X] shell ou bash
-- [X] wget ou cURL
+I recommend that you create a dedicated user (System > User Manager) with at least the "WebCfg - Diagnostics: Backup & Restore" privilege.
+For security reasons, the "admin" account is not recommended (password in clear text in the script).
 
-Fonctionne en théorie sur n'importe quelle distribution Linux. Testé sur Debian, CentOS, pfSense.
+You must edit the script (nano, vim, etc.) to enter at least:
+- [X] IP or FQDN name (without trailing slash)
+- [X] path to a file with the username and password to pfsense
+- [X] path to the backup location
 
-_Note : la modification des variables BACKUP_RRD, BACKUP_PKGINFO, BACKUP_PASSWORD n'est pour l'instant pas supportée._
+## 🚦 Minimum Requirements
+Need
+- [X] shell or bash
+- [X] wget or cURL
 
-## Compatibilité
-Ce script est compatible avec pfSense:
+In theory works on any Linux distribution. Tested on Debian, CentOS, pfSense.
+
+Note: modification of the BACKUP_RRD, BACKUP_PKGINFO, BACKUP_PASSWORD variables is currently not supported._
+
+## Compatibility
+This script is compatible with pfSense:
 - [X] 2.5.x
 - [X] 2.4.x
 - [X] 2.3.x
 - [X] 2.2.x
 
-Non testé sur les versions inférieures.
+Not tested on lower versions.
 
-Validé avec les versions :
+Validated with the versions:
 - [X] 2.5.2
 - [X] 2.4.3
 - [X] 2.4.0
@@ -53,9 +47,9 @@ Validé avec les versions :
 - [X] 2.3.1
 - [X] 2.2.5
 
-### 🚀 Utilisation
-Il est recommandé de créer un répertoire dédié pour y stocker le script. 
-Les configurations XML sont stockées dans un sous-répertoire dédié.
+### 🚀 Usage
+It is recommended to create a dedicated directory to store the script there.
+XML configurations are stored in a dedicated subdirectory.
 
 Version cURL:
 ```
@@ -63,28 +57,12 @@ chmod +x pfmotion_curl.sh
 ./pfmotion_curl.sh
 ```
 
-Version cURL multi:
+The backup file contains the name of the firewall:
 ```
-chmod +x pfmotion_curl_multi.sh
-./pfmotion_curl_multi.sh
+/tmp/conf_backup/config-<host-name>_<domain>-<YYYYmmDDHHMMSS>.xml
 ```
-
-Version wget :
-```
-chmod +x pfmotion_curl_wget.sh
-./pfmotion_curl_wget.sh
-```
-
-
-Le fichier de backup contient le nom du pare-feu :
-```
-/tmp/conf_backup/config-<nom-hote>_<domaine>-<YYYYmmJJHHMMSS>.xml
-```
-Exemple :
+Example :
 ```
 /tmp/conf_backup/config-pf_blogmotion.fr-20171007002812.xml
 ```
-
-### [EN] Description
-soon
 
