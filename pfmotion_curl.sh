@@ -18,7 +18,7 @@ config_file=/etc/server-credentials/pfsense #read username and password from a c
 pfsense_host=https://192.168.0.1
 
 # where to store backups
-backup_dir=~/DRIVE/share/backup/pfsense/automated_backups
+backup_dir=/mnt/share/backup/pfsense/automated_backups
 
 ######## END VARIABLES ########
 ##############################
